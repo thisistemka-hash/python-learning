@@ -1,3 +1,4 @@
+# Учёт расходов - проект фазы 1
 rashods= {}
 try:
     with open("rashods.txt", "r", encoding="utf-8") as f:
