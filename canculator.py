@@ -1,0 +1,6 @@
+name1 = input("Как зовут 1?")
+age1 = input('Сколько лет 1?')
+name2 = input("Как зовут 2?")
+age2 = input('Сколько лет 2?')
+avg = str((int(age1)+int(age2))/2)
+print("Средний возвратс" + name1 + " и " + name2 + ":" + avg)

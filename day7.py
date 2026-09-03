@@ -1,0 +1,6 @@
+text = input("Введи фразу: ")
+words = text.split(" ")
+print(f"Слов: {len(words)}")
+print(f"БОЛЬШИМИ: {text.upper()}")
+print(f"маленькими: {text.lower()}")
+print(f"Символов: {len(text)}")
