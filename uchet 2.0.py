@@ -18,6 +18,7 @@ while True:
         name = input("Категория:") 
         price = int(input("Цена:"))
         cursor.execute("INSERT INTO uchet (category, amount) VALUES (?, ?)", (name, price))
+        conn.commit()
         print("Добавлено!")
     elif x == 2:
         print("--- Все категории: ---")
@@ -35,6 +36,6 @@ while True:
     else:
         print("Всего доброго!")
         break
-    
-conn.commit()
+
+
 conn.close()
