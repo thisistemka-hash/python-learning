@@ -36,7 +36,8 @@ if cursor.fetchone()[0] == 0:
                     ('1984', 2, 1949, 328),
                     ('Скотный двор', 2, 1945, 112),
                     ('Норвежский лес', 3, 1987, 296),
-                    ('Кафка на пляже', 3, 2002, 505)])
+                    ('Кафка на пляже', 3, 2002, 505),
+                    ('Без года', 3, None, 200)])
     conn.commit()
 
 print("Все книги с именами авторов:")
@@ -89,3 +90,41 @@ cursor.execute("""
 """)
 for row in cursor.fetchall():
     print(row)
+
+# UPDATE, DELETE, фильтры
+
+cursor.execute("SELECT id, title, year FROM books WHERE title LIKE '1984'")
+print("до изменения:", cursor.fetchall())
+
+cursor.execute("UPDATE books SET year = 1948 WHERE title = '1984'")
+cursor.execute("SELECT id, title, year FROM books WHERE title LIKE '1984'")
+print("после:", cursor.fetchall())
+conn.commit()
+
+cursor.execute("DELETE FROM books WHERE title LIKE 'Скотный двор'")
+cursor.execute("SELECT count(*) FROM books")
+count = cursor.fetchone()
+print("осталось", count, "книг")
+
+cursor.execute("SELECT title FROM books WHERE title LIKE '%а%'")
+print("Книги, в названии которых есть маленькая буква «а»:", cursor.fetchall())
+
+cursor.execute("SELECT title, year FROM books WHERE year BETWEEN 1900 AND 1990 ORDER BY year")
+print("Книги, изданные между 1900 и 1990:", cursor.fetchall())
+
+cursor.execute("""
+    SELECT authors.name, count(*)
+    FROM books
+    JOIN authors ON books.author_id = authors.id
+    WHERE authors.country IN ('Россия', 'Япония')
+    GROUP BY authors.name
+""")
+print("Книги авторов из России и Японии:", cursor.fetchall())
+
+cursor.execute("SELECT title FROM books WHERE year IS NULL")
+print("Книги без года:", cursor.fetchall())
+
+cursor.execute("UPDATE books SET title = 'Пупупу' WHERE year = -666")
+print(cursor.rowcount)
+cursor.execute("DELETE FROM authors WHERE country LIKE 'lap'")
+print(cursor.rowcount)
